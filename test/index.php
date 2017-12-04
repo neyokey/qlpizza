@@ -7,7 +7,7 @@
 	if(isset($_POST["exit"]))
 	{
 		session_destroy();
-		header('Location: ../index.php');
+		header('Location: index.php');
 	}
 	
 	if(isset($_POST["Login"]))
@@ -18,7 +18,9 @@
 			$password = $_POST["password"];
 		$data = $loai->queryLogin($email,$password);
 		$_SESSION["Login"] = $data; 
-	}else if(isset($_POST["SignUp"]))
+		
+	}
+	else if(isset($_POST["SignUp"]))
 	{
 	
 		if (isset($_POST["name"]))
@@ -137,13 +139,25 @@
 			<div><a href="links/SignUp.html"> <img src="images/Human.jpg" class="img-rounded" alt="Cinque Terre"> Đăng kí</a></div>
 			
 			<?php
-			}else{
+			}else if(isset($_SESSION['Login'][0])== false)
+			{
+				?>
+				<p><a href="links/Login.html"> <img src="images/Human.jpg" class="img-rounded" alt="Cinque Terre"> Đăng nhập</a></p>
+			   <p>&nbsp;</p>
+
+				<div><a href="links/SignUp.html"> <img src="images/Human.jpg" class="img-rounded" alt="Cinque Terre"> Đăng kí</a></div>
+				<p>&nbsp;</p>
+				<div> Sai mật khẩu</div>			
+				<?php
+				unset($_SESSION['Login']);
+			}
+			else{
 				echo "Welcome {$_SESSION['Login'][0]['TenNguoidung']}";
 				if($_SESSION['Login']['0']['MaLoaiNguoidung'] == "admin")
 				{
 					?>
 						<button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='links/Admin.php'">Quản lí</button>
-						<form name="exit" action="../index.php"  method="post">
+						<form name="exit" action="index.php"  method="post">
 							<button type="submit" class="btn btn-primary btn-lg" name ="exit">Thoát</button>	
 						</form>	
 					<?php
@@ -152,7 +166,7 @@
 				{
 					?>
 						<button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='links/User.php'">Chi tiết</button>	
-						<form name="exit" action="../index.php"  method="post">
+						<form name="exit" action="index.php"  method="post">
 							<button type="submit" class="btn btn-primary btn-lg" name ="exit">Thoát</button>	
 						</form>
 					<?php
@@ -181,12 +195,12 @@
 	  <div class="col-sm-8">
 	  <hr>
 		
-		<div class="col-sm-2 " border-color: green><a href="../index.php">TRANG CHỦ</a></div>
-	  	<div class="col-sm-2 "><a href="../links/combo.php">Combo</a></div>
-	  	<div class="col-sm-2 "><a href="../links/pizza.php">Pizza</a></div>
-	  	<div class="col-sm-2 "><a href="../links/monchinh.php">Món chính</a></div>
-	  	<div class="col-sm-2 "><a href="../links/monkhaivi.php">Món khai vị</a></div>
-	  	<div class="col-sm-2 "><a href="../links/thucuong.php">Thức uống</a></div>
+		<div class="col-sm-2 " border-color: green><a href="index.php">TRANG CHỦ</a></div>
+	  	<div class="col-sm-2 "><a href="links/combo.php">Combo</a></div>
+	  	<div class="col-sm-2 "><a href="links/pizza.php">Pizza</a></div>
+	  	<div class="col-sm-2 "><a href="links/monchinh.php">Món chính</a></div>
+	  	<div class="col-sm-2 "><a href="inks/monkhaivi.php">Món khai vị</a></div>
+	  	<div class="col-sm-2 "><a href="links/thucuong.php">Thức uống</a></div>
 	  </div>
 	  <div class="col-sm-2 ">
 	</div>
@@ -213,11 +227,11 @@
 		  <!-- Wrapper for slides -->
 		  <div class="carousel-inner">
 			<div class="item active">
-			  <a href="combo.html"><img src="images/Main-Banner-1.jpg" /></a>
+			  <a href="links/combo.php"><img src="images/Main-Banner-1.jpg" /></a>
 			</div>
 
 			<div class="item">
-			  <a href="combo.html"><img src="images/BOGOBannerHome.jpg" /></a>
+			  <a href="links/combo.php"><img src="images/BOGOBannerHome.jpg" /></a>
 			</div>
 
 		  </div>

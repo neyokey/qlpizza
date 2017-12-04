@@ -133,13 +133,12 @@
 		</div>
 	  <div class="col-sm-8">
 	  <hr>
-		
 		<div class="col-sm-2 " border-color: green><a href="../index.php">TRANG CHỦ</a></div>
-	  	<div class="col-sm-2 "><a href="../links/combo.php">Combo</a></div>
-	  	<div class="col-sm-2 "><a href="../links/pizza.php">Pizza</a></div>
-	  	<div class="col-sm-2 "><a href="../links/monchinh.php">Món chính</a></div>
-	  	<div class="col-sm-2 "><a href="../links/monkhaivi.php">Món khai vị</a></div>
-	  	<div class="col-sm-2 "><a href="../links/thucuong.php">Thức uống</a></div>
+	  	<div class="col-sm-2 "><a href="combo.php">Combo</a></div>
+	  	<div class="col-sm-2 "><a href="pizza.php">Pizza</a></div>
+	  	<div class="col-sm-2 "><a href="monchinh.php">Món chính</a></div>
+	  	<div class="col-sm-2 "><a href="monkhaivi.php">Món khai vị</a></div>
+	  	<div class="col-sm-2 "><a href="thucuong.php">Thức uống</a></div>
 	  </div>
 	  <div class="col-sm-2 ">
 	</div>
@@ -161,7 +160,7 @@
 				<div class="row"> 
 					<hr>
 					<div class="col-sm-6"> 
-					<a href="#"><img src="../<?php echo $r["Hinhanh"];?>" /></a>					
+					<a href="#"><img src="../images/mn/<?php echo $r["Hinhanh"];?>" /></a>					
 					</div>
 					<div class="col-sm-6 text-center">
 						<div class="row">

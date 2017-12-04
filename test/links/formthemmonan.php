@@ -177,7 +177,6 @@ else
             <div class="err">
             <?php
             	if (isset($_POST["them"]))
-				{
 					if($err != "")
 						echo $err;
 					else
@@ -185,7 +184,6 @@ else
 						$h = $ma.".png";
 						$data = $loai->queryaddMA($ma,$ten,$gt,$ct,$h,$maloai);
 					}
-				}
 				?>
             </div>
 </body>

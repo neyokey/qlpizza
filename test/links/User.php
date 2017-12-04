@@ -1,15 +1,13 @@
 <?php
-	session_start();
+session_start();
 	$data = null;
 	include "../config.php";
 	include "../autoload.php";
 	$loai = new Db();
-	
 		if (isset($_SESSION['Login'][0]['MaNguoidung']))
 		{
-				$ma = $_SESSION['Login'][0]['MaNguoidung']);
+				$ma = $_SESSION['Login'][0]['MaNguoidung'];
 				$data = $loai->queryUser("select * from nguoidung where MaNguoidung like :ma",$ma);
-				
 		}
 
 
@@ -132,7 +130,7 @@
 			?>	
       </div>
       <div class="col-sm-8 text-center ">
-		  <a href="index.html"><img src="../images/ph-logo.png" height="97"/></a>
+		  <a href="../index.php"><img src="../images/ph-logo.png" height="97"/></a>
       </div> 
       <div class="col-sm-2 text-center">  
 		<button type="button" class="btn btn-warning">Giỏ hàng</button>
@@ -150,30 +148,12 @@
 		</div>
 	  <div class="col-sm-8">
 	  <hr>
-		<?php
-		  if($data != null)
-		  {
-		  ?>
-		<div class="col-sm-2 " border-color: green><a href="../index.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>">TRANG CHỦ</a></div>
-	  	<div class="col-sm-2 "><a href="../links/combo.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>">Combo</a></div>
-	  	<div class="col-sm-2 "><a href="../links/pizza.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>">Pizza</a></div>
-	  	<div class="col-sm-2 "><a href="../links/monchinh.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>">Món chính</a></div>
-	  	<div class="col-sm-2 "><a href="../links/monkhaivi.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>">Món khai vị</a></div>
-	  	<div class="col-sm-2 "><a href="../links/thucuong.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>">Thức uống</a></div>
-	  	<?php
-		  }
-		  else
-		  {
-			?>
 		<div class="col-sm-2 " border-color: green><a href="../index.php">TRANG CHỦ</a></div>
-	  	<div class="col-sm-2 "><a href="../links/combo.php">Combo</a></div>
-	  	<div class="col-sm-2 "><a href="../links/pizza.php">Pizza</a></div>
-	  	<div class="col-sm-2 "><a href="../links/monchinh.php">Món chính</a></div>
-	  	<div class="col-sm-2 "><a href="../links/monkhaivi.php">Món khai vị</a></div>
-	  	<div class="col-sm-2 "><a href="../links/thucuong.php">Thức uống</a></div>	  
-			  <?php
-		  }
-			  ?>
+	  	<div class="col-sm-2 "><a href="combo.php">Combo</a></div>
+	  	<div class="col-sm-2 "><a href="pizza.php">Pizza</a></div>
+	  	<div class="col-sm-2 "><a href="monchinh.php">Món chính</a></div>
+	  	<div class="col-sm-2 "><a href="monkhaivi.php">Món khai vị</a></div>
+	  	<div class="col-sm-2 "><a href="thucuong.php">Thức uống</a></div>
 	  </div>
 	  <div class="col-sm-2 ">
 	</div>

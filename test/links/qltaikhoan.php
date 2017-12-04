@@ -1,62 +1,19 @@
 <?php
+		session_start();
+			$data = null;
 			include "../config.php";
 			include "../autoload.php";
-			//$obj = new Monan();
 			$loai = new Db();
+				if (isset($_SESSION['Login'][0]['MaNguoidung']))
+				{
+						$ma = $_SESSION['Login'][0]['MaNguoidung'];
+						$data = $loai->queryUser("select * from nguoidung where MaNguoidung like :ma",$ma);
+				}
 
 			$ten="";
 			if (isset($_POST["ten"]))
 				$ten = $_POST["ten"];
-	
 			$data1 = $loai->queryput("select * from nguoidung where TenNguoidung like :ten and MaLoaiNguoidung not like 'admin'",$ten);
-			$data = null;
-	if(isset($_POST["Login"]))
-	{
-			//$obj = new Monan();
-		
-
-		if (isset($_POST["email"]))
-			$email = $_POST["email"];
-		if (isset($_POST["password"]))
-			$password = $_POST["password"];
-	
-		$data = $loai->queryLogin("select * from nguoidung where Email like :email and Matkhau like :password",$email,$password);
-	}else if(isset($_POST["SignUp"]))
-	{
-	
-		if (isset($_POST["name"]))
-			$name = $_POST["name"];
-		if (isset($_POST["email"]))
-			$email = $_POST["email"];
-		if (isset($_POST["password"]))
-			$password = $_POST["password"];
-		if (isset($_POST["ngaysinh"]))
-			$ngaysinh = $_POST["ngaysinh"];
-		if (isset($_POST["gioitinh"]))
-			$gioitinh = $_POST["gioitinh"];
-		if (isset($_POST["phone"]))
-			$phone = $_POST["phone"];
-		if (isset($_POST["diachi"]))
-			$diachi = $_POST["diachi"];
-		print_r($name);
-		print_r($password);
-		print_r($email);
-		print_r($ngaysinh);
-		print_r($gioitinh);
-		print_r($phone);
-		print_r($diachi);
-		
-		
-		$data=$loai->querySignUp("INSERT INTO nguoidung (TenNguoidung, Matkhau, Ngaysinh, Gioitinh, Sodienthoai, Diachi, Email, Diem, MaLoaiNguoidung)
-				VALUES (:name,:password,:ngaysinh,:gioitinh,:phone,:diachi,:email,0,'nm')",$name,$email,$password,$ngaysinh,$gioitinh,$phone,$diachi);
-				
-	}
-			
-	if (isset($_GET["MaNguoidung"]))
-		{
-				$ma = $_GET["MaNguoidung"];
-		$data = $loai->queryUser("select * from nguoidung where MaNguoidung like :ma",$ma);
-		}
 
 ?>
 <!DOCTYPE html>
@@ -177,7 +134,7 @@
 			?>
       </div>
       <div class="col-sm-8 text-center ">
-		  <a href="index.html"><img src="../images/ph-logo.png" height="97"/></a>
+		  <a href="../index.php"><img src="../images/ph-logo.png" height="97"/></a>
       </div> 
       <div class="col-sm-2 text-center">  
 		<button type="button" class="btn btn-warning">Giỏ hàng</button>
@@ -195,30 +152,12 @@
 		</div>
 	  <div class="col-sm-8">
 	  <hr>
-		<?php
-		  if($data != null)
-		  {
-		  ?>
-		<div class="col-sm-2 " border-color: green><a href="../index.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>">TRANG CHỦ</a></div>
-	  	<div class="col-sm-2 "><a href="../links/combo.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>">Combo</a></div>
-	  	<div class="col-sm-2 "><a href="../links/pizza.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>">Pizza</a></div>
-	  	<div class="col-sm-2 "><a href="../links/monchinh.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>">Món chính</a></div>
-	  	<div class="col-sm-2 "><a href="../links/monkhaivi.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>">Món khai vị</a></div>
-	  	<div class="col-sm-2 "><a href="../links/thucuong.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>">Thức uống</a></div>
-	  	<?php
-		  }
-		  else
-		  {
-			?>
 		<div class="col-sm-2 " border-color: green><a href="../index.php">TRANG CHỦ</a></div>
-	  	<div class="col-sm-2 "><a href="../links/combo.php">Combo</a></div>
-	  	<div class="col-sm-2 "><a href="../links/pizza.php">Pizza</a></div>
-	  	<div class="col-sm-2 "><a href="../links/monchinh.php">Món chính</a></div>
-	  	<div class="col-sm-2 "><a href="../links/monkhaivi.php">Món khai vị</a></div>
-	  	<div class="col-sm-2 "><a href="../links/thucuong.php">Thức uống</a></div>	  
-			  <?php
-		  }
-			  ?>
+	  	<div class="col-sm-2 "><a href="combo.php">Combo</a></div>
+	  	<div class="col-sm-2 "><a href="pizza.php">Pizza</a></div>
+	  	<div class="col-sm-2 "><a href="monchinh.php">Món chính</a></div>
+	  	<div class="col-sm-2 "><a href="monkhaivi.php">Món khai vị</a></div>
+	  	<div class="col-sm-2 "><a href="thucuong.php">Thức uống</a></div>
 	  </div>
 	  <div class="col-sm-2 ">
 	</div>
@@ -255,8 +194,8 @@
 					   <td><?php echo $row["Email"];?></td>	
 					   <td><?php echo $row["Diem"];?></td>
 					   	<td><?php echo $row["MaLoaiNguoidung"];?></td>			  
-						<td><a href='xoanguoidung.php?MaNguoidung=<?php echo $row["MaNguoidung"];?>'>Xóa</a>
-							<a href='suanguoidung.php?MaNguoidung=<?php echo $row["MaNguoidung"];?>'>Sửa</a></td>
+						<td><a href='xoataikhoan.php?MaNguoidung=<?php echo $row["MaNguoidung"];?>'>Xóa</a>
+							<a href='formsuataikhoan.php?MaNguoidung=<?php echo $row["MaNguoidung"];?>'>Sửa</a></td>
 						</tr>
 					<?php
 				}
