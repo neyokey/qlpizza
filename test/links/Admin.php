@@ -7,7 +7,7 @@
 		if (isset($_SESSION['Login'][0]['MaNguoidung']))
 		{
 				$ma = $_SESSION['Login'][0]['MaNguoidung'];
-				$data = $loai->queryUser("select * from nguoidung where MaNguoidung like :ma",$ma);
+		$data = $loai->queryUser("select * from nguoidung where MaNguoidung like :ma",$ma);
 		}
 
 
@@ -131,10 +131,10 @@
 		</div>
       </div>
       <div class="col-sm-8 text-center ">
-		  <a href="../index.php"><img src="../images/ph-logo.png" height="97"/></a>
+		  <a href="index.html"><img src="../images/ph-logo.png" height="97"/></a>
       </div> 
       <div class="col-sm-2 text-center">  
-		<button type="button" class="btn btn-warning">Giỏ hàng</button>
+		<button type="button" class="btn btn-warning">Đặt hàng</button>
 
       </div>
 	</div>
@@ -151,11 +151,11 @@
 	  <hr>
 		
 		<div class="col-sm-2 " border-color: green><a href="../index.php">TRANG CHỦ</a></div>
-	  	<div class="col-sm-2 "><a href="combo.php">Combo</a></div>
-	  	<div class="col-sm-2 "><a href="pizza.php">Pizza</a></div>
-	  	<div class="col-sm-2 "><a href="monchinh.php">Món chính</a></div>
-	  	<div class="col-sm-2 "><a href="monkhaivi.php">Món khai vị</a></div>
-	  	<div class="col-sm-2 "><a href="thucuong.php">Thức uống</a></div>
+	  	<div class="col-sm-2 "><a href="../links/combo.php">Combo</a></div>
+	  	<div class="col-sm-2 "><a href="../links/pizza.php">Pizza</a></div>
+	  	<div class="col-sm-2 "><a href="../links/monchinh.php">Món chính</a></div>
+	  	<div class="col-sm-2 "><a href="../links/monkhaivi.php">Món khai vị</a></div>
+	  	<div class="col-sm-2 "><a href="../links/thucuong.php">Thức uống</a></div>
 	  </div>
 	  <div class="col-sm-2 ">
 	</div>
@@ -172,10 +172,9 @@
       		<div class="personal-details">
 				<div class="owner-info">
 				<div class="owner-name">Chức năng</div>
-				<div><a href="qltaikhoan.php" class="btn btn-cta">Quản lí tài khoản</a></div>
-				<div><a href="qldonhang.php" class="btn btn-cta">Quản lí đơn hàng</a></div>
-    			<div><a href="qlmonan.php" class="btn btn-cta">Quản lí món ăn</a></div>
-    			<div><a href="formthemmonan.php" class="btn btn-cta">Thêm món ăn</a></div>
+				<div><a href="qltaikhoan.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>" class="btn btn-cta">Quản lí tài khoản</a></div>
+				<div><a href="qldonhang.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>" class="btn btn-cta">Quản lí đơn hàng</a></div>
+    			<div><a href="qlmonan.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>" class="btn btn-cta">Quản lí món ăn</a></div>
      	</div>
     </div>
     <div class="col-sm-2">
