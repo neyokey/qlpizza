@@ -28,11 +28,6 @@ class Db
 		{
 			return $this->_numRow;	
 		}
-	public function getData()
-		{
-			return $this->data;	
-		}
-		
 		
 	private function queryDH($sql, $arr = array(), $mode = PDO::FETCH_ASSOC)
 		{
@@ -69,19 +64,18 @@ class Db
 		$this->data = $stm->fetchAll(PDO::FETCH_ASSOC);
 		return $this->data;	
 	}
-	public function queryCheckDH($sql,$id)
-	{
-		$stm = $this->conn->prepare($sql);
-		$stm->bindValue(":id",$id);
-		$stm->execute();
-		$this->data = $stm->fetchAll(PDO::FETCH_ASSOC);
-		return $this->data;	
-	}
-	
 	public function queryput($sql,$ten, $arr=array())
 	{
 		$stm = $this->conn->prepare($sql);
 		$stm->bindValue(":ten","%$ten%");
+		$stm->execute();
+		$this->data = $stm->fetchAll(PDO::FETCH_ASSOC);
+		return $this->data;	
+	}
+	public function queryput2($sql,$ten, $arr=array())
+	{
+		$stm = $this->conn->prepare($sql);
+		$stm->bindValue(":ten","$ten");
 		$stm->execute();
 		$this->data = $stm->fetchAll(PDO::FETCH_ASSOC);
 		return $this->data;	
@@ -125,5 +119,6 @@ class Db
 		$this->data = $stm->fetchAll(PDO::FETCH_ASSOC);
 		return $this->data;	
 	}
+
 	
 }

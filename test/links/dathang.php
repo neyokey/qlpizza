@@ -15,12 +15,6 @@
 			$cart->add($id, $quantity);
 		}
 		//Biến $cart được tạo từ trang chủ index.php
-		if ($ac=="del")
-		{
-			$quantity = getIndex("quantity", 1);
-			$id = getIndex("id");
-			$cart->remove($id);
-		}
 		
 ?>
 <!DOCTYPE html>
@@ -136,7 +130,7 @@
 				if($_SESSION['Login']['0']['MaLoaiNguoidung'] == "admin")
 				{
 					?>
-						<button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='Admin.php'">Quản lí</button>
+						<button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='links/Admin.php'">Quản lí</button>
 						<form name="exit" action="../index.php"  method="post">
 							<button type="submit" class="btn btn-primary btn-lg" name ="exit">Thoát</button>	
 						</form>	
@@ -145,7 +139,7 @@
 				else
 				{
 					?>
-						<button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='User.php'">Chi tiết</button>	
+						<button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='links/User.php'">Chi tiết</button>	
 						<form name="exit" action="../index.php"  method="post">
 							<button type="submit" class="btn btn-primary btn-lg" name ="exit">Thoát</button>	
 						</form>
@@ -192,46 +186,22 @@
     <div class="col-sm-2">
     </div>
     <div class="col-sm-8 text-center"> 
-
-		  <div class="intent">
+      	<div class="tieude"> Quản lí đơn hàng</div>
+      		<div class="personal-details">
+				<div class="owner-info">
 				<?php
-				$cart -> show();
+					$cart->show();
 				?>
-		  </div>
-		  <div class="intent">
-				<table border=\"1\"><tr><td>Giá tiền</td><td>Giảm giá</td><td>Thành tiền</td></tr>
-				<tr>
-						<td><?php echo $cart ->getThanhTien();?></td>
-						<td><?php 
-						if($_SESSION['Login'][0]['MaLoaiNguoidung']=="nm")
-						{
-							$giamgia = 0;
-							echo "0";
-						}else if($_SESSION['Login'][0]['MaLoaiNguoidung']=="gm")
-						{
-							$giamgia = 10;
-							echo "10";
-						}else{
-							$giamgia = 0;
-							echo "0";
-						}
-						?>
-						</td>
-						<td><?php echo $tongTT = ($cart ->getThanhTien())-($cart ->getThanhTien()*$giamgia/100) ;?></td>
-						<td><button type="button" class="btn btn-warning" onclick="<?php $cart->SaveDatHang($cart ->getThanhTien(),$giamgia,$tongTT,$_SESSION['Login'][0]['MaNguoidung']);?>">Thanh Toán</button></td>
-					   
-						</tr>
 				
-				</table>
-				
-		  </div>
-		</div>
+    			</div>
+	  </div>
+     	</div>
+    </div>
     <div class="col-sm-2">
-
+	
     </div>
   </div>
 </div>
-
 
 <footer class="container-fluid text-center">
   <div class="row logo foot">

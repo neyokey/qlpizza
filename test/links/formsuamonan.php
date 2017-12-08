@@ -1,8 +1,11 @@
 <?php
 	include "../config.php";
-			include "../autoload.php";
-			$obj = new Monan();
-			$loai = new Db();
+	include "../autoload.php";
+	$obj = new Monan();
+	$loai = new Db();
+	$ma=$_GET["MaMonan"];
+	$sql="select * from monan where MaMonan='$ma'";
+	$row= $loai->query($sql);
 
 function postIndex($index, $value="")
 {
@@ -10,19 +13,18 @@ function postIndex($index, $value="")
 	return $_POST[$index];
 }
 
-$sm 	= postIndex("submit");
 $ma 	= postIndex("mamonan");
-$ten 	= postIndex("tenmon");
+$ten 	= postIndex("tenmonan");
 $gt 	= postIndex("giatien");
 $ct 	= postIndex("chitiet");
-$arrHinh   = array("image/png");
-
-
+$maloai   = postIndex("maloai");
 $err = "";
-if ($ten=="") $err .="Phải nhập mã <br>";
+if ($ma=="") $err .="Phải nhập mã <br>";
 if ($ten=="") $err .="Phải nhập tên <br>";
 if ($gt=="") $err .="Phải nhập giá tiền <br>";
+if ($ct=="") $err .="Phải nhập chi tiết <br>";
 
+$arrHinh   = array("image/png");
 
 
 if (isset($_FILES["hinh"]))
@@ -38,9 +40,10 @@ if (isset($_FILES["hinh"]))
 		else
 		{	$temp = $_FILES["hinh"]["tmp_name"];
 			$name = $_FILES["hinh"]["name"];
-			if (!move_uploaded_file($temp, "image/".$name))
+			if (!move_uploaded_file($temp, "../images/".$maloai."/".$name))
 				$err .="Không thể lưu file<br>";
-
+		 	else
+		 		rename("../images/".$maloai."/".$name,"../images/".$maloai."/".$ma.".png");
 		}
 	}
 }
@@ -48,7 +51,6 @@ else
 {
 	$err .="Chưa có hình <br>";
 }
-
 ?>
 <!doctype html>
 <html>
@@ -114,6 +116,9 @@ else
 	  .tt{
 		  color: white;
 	  }
+	  .err{
+		  color: red;
+	  }
   </style>
 </head>
 
@@ -124,42 +129,68 @@ else
     <div class="col-sm-4">
 	</div>
 	<div class="col-sm-4">
-       <form name="register" action="formadd.php" method="post" enctype="multipart/form-data">
+       <form name="register" action="formsuamonan.php?MaMonan=<?php echo $row[0]["MaMonan"];?>" method="post" enctype="multipart/form-data">
           <div class="step-1">
              <div class="tieude">Vui lòng điền vào biểu mẫu dưới đây</div>
                  <div class="row">
+                   <div class="tt col-sm-2">Mã:</div>
                     <div class="col-sm-6">
-                        <input type="text" name="mamonan" placeholder="Mã món ăn">
+                        <input type="text" name="mamonan" value="<?php echo $row[0]["MaMonan"] ?>">
                     </div>
                         </div>
                   <div class="row">
+                           <div class="tt col-sm-2">Tên:</div>
                             <div class="col-sm-6">
-                                <input type="text" name="tenmonan" placeholder="Tên món ăn">
+                                <input type="text" name="tenmonan" value="<?php echo $row[0]["TenMonan"] ?>">
                             </div>
                         </div> 
                         <div class="row">
+                           <div class="tt col-sm-2">Giá tiền:</div>
                             <div class="col-sm-6">
-                                <input type="text" name="giatien" placeholder="Giá tiền">
+                                <input type="text" name="giatien" value="<?php echo $row[0]["Giatien"] ?>">
                             </div>
                         </div>
                         <div class="row">	
+                           <div class="tt col-sm-2">Chi tiết:</div>
                             <div class="col-sm-6">
-                                    <input type="text" name="chitiet" placeholder="Chi tiết món ăn">
+                                    <input type="text" name="chitiet" value="<?php echo $row[0]["Chitiet"] ?>">
                             </div>
                         </div>
                         <div class="row">
+                        <div class="tt col-sm-2">Hình hiện tại:</div>
+                        <div class="col-sm-6"> 
+							<?php if($row[0]["MaLoaiMonan"] == "cb"){?>
+									<img src="../images/cb/<?php echo $row[0]["Hinhanh"];?>" />
+							<?php }else if($row[0]["MaLoaiMonan"] == "pz"){?>	
+									<img src="../images/pz/<?php echo $row[0]["Hinhanh"];?>" />
+							<?php }else if($row[0]["MaLoaiMonan"] == "mc"){?>	
+									<img src="../images/mc/<?php echo $row[0]["Hinhanh"];?>" />
+							<?php }else if($row[0]["MaLoaiMonan"] == "mkv"){?>	
+									<img src="../images/mkv/<?php echo $row[0]["Hinhanh"];?>" />
+							<?php }else if($row[0]["MaLoaiMonan"] == "mn"){?>	
+									<img src="../images/mn/<?php echo $row[0]["Hinhanh"];?>" />
+									<?php } ?>					
+					</div>
                      <div class="col-sm-8" name="a">
                          <input class="hinh" type="file" name="hinh"> 
                      </div>
-                     <div class="tt">(Size : 286 × 176)</div>
-                   </div> 
-                       <div class="row">	
+                     <div class="col-sm-8 tt">(Size : 286 × 176) (Type: png)</div>
+                   			  </div>
+
+                       <div class="row">
+                           <div class="tt col-sm-2">Loại:</div>	
                             <div class="col-sm-6">
-                                     <input type="text" name="maloai" placeholder="Mã loại món ăn">
+                                 <select name ="maloai">
+									<option value="cb" <?php if($row[0]["MaLoaiMonan"] == "cb") echo "selected"?>>Combo</option>
+									<option value="pz" <?php if($row[0]["MaLoaiMonan"] == "pz") echo "selected"?>>Pizza</option>
+									<option  value="mc" <?php if($row[0]["MaLoaiMonan"] == "mc") echo "selected"?>>Món chính</option>
+									<option  value="mkv" <?php if($row[0]["MaLoaiMonan"] == "mkv") echo "selected"?>>Món khai vị</option>
+									<option  value="mn" <?php if($row[0]["MaLoaiMonan"] == "mn") echo "selected"?>>Nước</option>
+								</select>
                             </div>
                         </div>                    
                         <div class="text-center">
-                            <button type="submit" class="btn btn-secondary btn-lg">Sửa</button>
+                            <button type="submit" name="them" class="btn btn-secondary btn-lg">Sửa</button>
                             <button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='../index.php'">Quay lại trang chủ</button>
                         </div>
                     </div>                 
@@ -167,8 +198,22 @@ else
             </div>
             <div class="err">
             <?php
-            	if (isset($_POST["submit"]))
-					echo $err;
+            	if (isset($_POST["them"]))
+				{
+					if($err != "")
+						echo $err;
+					else
+					{
+						$h = $ma.".png";
+						$sqlupdate = "update monan set TenMonan='$ten', Giatien='$gt', Chitiet='$ct', Hinhanh='$h', MaLoaiMonan='$maloai' where MaMonan='$ma'";
+						$data = $loai->query($sqlupdate);
+						
+						?>
+							<script>location.href="qlmonan.php" </script>
+				
+				<?php
+					}
+				}
 				?>
             </div>
 </body>

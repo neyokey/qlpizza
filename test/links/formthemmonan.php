@@ -177,13 +177,19 @@ else
             <div class="err">
             <?php
             	if (isset($_POST["them"]))
+				{
 					if($err != "")
 						echo $err;
 					else
 					{
 						$h = $ma.".png";
 						$data = $loai->queryaddMA($ma,$ten,$gt,$ct,$h,$maloai);
+						?>
+							<script>location.href="qlmonan.php" </script>
+				
+						<?php
 					}
+				}
 				?>
             </div>
 </body>

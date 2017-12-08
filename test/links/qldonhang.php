@@ -1,63 +1,23 @@
 <?php
+
+			
+
+	session_start();
+			$data = null;
 			include "../config.php";
 			include "../autoload.php";
-			$obj = new Monan();
 			$loai = new Db();
+				if (isset($_SESSION['Login'][0]['MaNguoidung']))
+				{
+						$ma = $_SESSION['Login'][0]['MaNguoidung'];
+				$data = $loai->queryUser("select * from nguoidung where MaNguoidung like :ma",$ma);
+				}
 
 			$tg="";
 			if (isset($_POST["tg"]))
 				$tg = $_POST["tg"];
 	
 			$data1 = $loai->queryput("select * from donhang where Thoigiandathang like :ten ",$tg);
-
-			$data = null;
-	if(isset($_POST["Login"]))
-	{
-			//$obj = new Monan();
-		
-
-		if (isset($_POST["email"]))
-			$email = $_POST["email"];
-		if (isset($_POST["password"]))
-			$password = $_POST["password"];
-	
-		$data = $loai->queryLogin("select * from nguoidung where Email like :email and Matkhau like :password",$email,$password);
-	}else if(isset($_POST["SignUp"]))
-	{
-	
-		if (isset($_POST["name"]))
-			$name = $_POST["name"];
-		if (isset($_POST["email"]))
-			$email = $_POST["email"];
-		if (isset($_POST["password"]))
-			$password = $_POST["password"];
-		if (isset($_POST["ngaysinh"]))
-			$ngaysinh = $_POST["ngaysinh"];
-		if (isset($_POST["gioitinh"]))
-			$gioitinh = $_POST["gioitinh"];
-		if (isset($_POST["phone"]))
-			$phone = $_POST["phone"];
-		if (isset($_POST["diachi"]))
-			$diachi = $_POST["diachi"];
-		print_r($name);
-		print_r($password);
-		print_r($email);
-		print_r($ngaysinh);
-		print_r($gioitinh);
-		print_r($phone);
-		print_r($diachi);
-		
-		
-		$data=$loai->querySignUp("INSERT INTO nguoidung (TenNguoidung, Matkhau, Ngaysinh, Gioitinh, Sodienthoai, Diachi, Email, Diem, MaLoaiNguoidung)
-				VALUES (:name,:password,:ngaysinh,:gioitinh,:phone,:diachi,:email,0,'nm')",$name,$email,$password,$ngaysinh,$gioitinh,$phone,$diachi);
-				
-	}
-			
-	if (isset($_GET["MaNguoidung"]))
-		{
-				$ma = $_GET["MaNguoidung"];
-		$data = $loai->queryUser("select * from nguoidung where MaNguoidung like :ma",$ma);
-		}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -248,13 +208,12 @@
 				{
 					?>
 					<tr><td><?php echo $row["MaDonhang"];?></td>
-						<td><?php echo $row["Thoigiandathang"];?></td>
+						<td><?php echo $row["ThoiGianDathang"];?></td>
 					   <td><?php echo $row["TongGiatien"];?></td>
 					   <td><?php echo $row["Giamgia"];?></td>
 					   <td><?php echo $row["Thanhtien"];?></td>	
 					   <td><?php echo $row["MaNguoidung"];?></td>			  
-						<td><a href='xoadonhang.php?MaDonhang=<?php echo $row["MaDonhang"];?>'>Xóa</a>
-							<a href='suadonhang.php?MaDonhang=<?php echo $row["MaDonhang"];?>'>Sửa</a>
+						<td><a href='xoadonhang.php?MaDonhang=<?php echo $row["MaDonhang"];?>&'>Xóa</a>	
 							<a href='qlchitietdonhang.php?MaDonhang=<?php echo $row["MaDonhang"];?>'>Chi tiết</a></td>
 						</tr>
 					<?php

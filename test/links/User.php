@@ -114,8 +114,8 @@ session_start();
 						<button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='Admin.php'">Quản lí</button>
 						<form name="exit" action="../index.php"  method="post">
 							<button type="submit" class="btn btn-primary btn-lg" name ="exit">Thoát</button>	
-						</form>		>		
-					<?php
+						</form>
+						<?php
 				}
 				else
 				{

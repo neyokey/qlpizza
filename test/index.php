@@ -147,7 +147,7 @@
 
 				<div><a href="links/SignUp.html"> <img src="images/Human.jpg" class="img-rounded" alt="Cinque Terre"> Đăng kí</a></div>
 				<p>&nbsp;</p>
-				<div> Sai mật khẩu</div>			
+				<div> Sai tài khoản hoặc mật khẩu</div>			
 				<?php
 				unset($_SESSION['Login']);
 			}
@@ -199,7 +199,7 @@
 	  	<div class="col-sm-2 "><a href="links/combo.php">Combo</a></div>
 	  	<div class="col-sm-2 "><a href="links/pizza.php">Pizza</a></div>
 	  	<div class="col-sm-2 "><a href="links/monchinh.php">Món chính</a></div>
-	  	<div class="col-sm-2 "><a href="inks/monkhaivi.php">Món khai vị</a></div>
+	  	<div class="col-sm-2 "><a href="links/monkhaivi.php">Món khai vị</a></div>
 	  	<div class="col-sm-2 "><a href="links/thucuong.php">Thức uống</a></div>
 	  </div>
 	  <div class="col-sm-2 ">

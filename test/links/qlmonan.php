@@ -205,7 +205,7 @@
 						</td>	
 					   <td><?php echo $row["MaLoaiMonan"];?></td>			  
 						<td><a href='xoamonan.php?MaMonan=<?php echo $row["MaMonan"];?>'>Xóa</a>
-							<a href='suamonan.php?MaMonan=<?php echo $row["MaMonan"];?>'>Sửa</a></td>
+							<a href='formsuamonan.php?MaMonan=<?php echo $row["MaMonan"];?>'>Sửa</a></td>
 						</tr>
 					<?php
 				}

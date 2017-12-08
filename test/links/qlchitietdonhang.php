@@ -1,61 +1,21 @@
 <?php
+			
+
+			
+			session_start();
+			$data = null;
 			include "../config.php";
 			include "../autoload.php";
-			$obj = new Monan();
 			$loai = new Db();
+				if (isset($_SESSION['Login'][0]['MaNguoidung']))
+				{
+						$ma = $_SESSION['Login'][0]['MaNguoidung'];
+				$data = $loai->queryUser("select * from nguoidung where MaNguoidung like :ma",$ma);
+				}
 
 			if (isset($_GET["MaDonhang"]))
 				$ma = $_GET["MaDonhang"];	
-			$data1 = $loai->queryput("select * from chitietdonhang where MaDonhang like :ten ",$ma);
-
-			$data = null;
-	if(isset($_POST["Login"]))
-	{
-			//$obj = new Monan();
-		
-
-		if (isset($_POST["email"]))
-			$email = $_POST["email"];
-		if (isset($_POST["password"]))
-			$password = $_POST["password"];
-	
-		$data = $loai->queryLogin("select * from nguoidung where Email like :email and Matkhau like :password",$email,$password);
-	}else if(isset($_POST["SignUp"]))
-	{
-	
-		if (isset($_POST["name"]))
-			$name = $_POST["name"];
-		if (isset($_POST["email"]))
-			$email = $_POST["email"];
-		if (isset($_POST["password"]))
-			$password = $_POST["password"];
-		if (isset($_POST["ngaysinh"]))
-			$ngaysinh = $_POST["ngaysinh"];
-		if (isset($_POST["gioitinh"]))
-			$gioitinh = $_POST["gioitinh"];
-		if (isset($_POST["phone"]))
-			$phone = $_POST["phone"];
-		if (isset($_POST["diachi"]))
-			$diachi = $_POST["diachi"];
-		print_r($name);
-		print_r($password);
-		print_r($email);
-		print_r($ngaysinh);
-		print_r($gioitinh);
-		print_r($phone);
-		print_r($diachi);
-		
-		
-		$data=$loai->querySignUp("INSERT INTO nguoidung (TenNguoidung, Matkhau, Ngaysinh, Gioitinh, Sodienthoai, Diachi, Email, Diem, MaLoaiNguoidung)
-				VALUES (:name,:password,:ngaysinh,:gioitinh,:phone,:diachi,:email,0,'nm')",$name,$email,$password,$ngaysinh,$gioitinh,$phone,$diachi);
-				
-	}
-			
-	if (isset($_GET["MaNguoidung"]))
-		{
-				$ma = $_GET["MaNguoidung"];
-		$data = $loai->queryUser("select * from nguoidung where MaNguoidung like :ma",$ma);
-		}
+			$data1 = $loai->queryput2("select * from chitietdonhang where MaDonhang = :ten ",$ma);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -214,16 +174,17 @@
       	<div class="tieude"> Chi tiết đơn hàng</div>
       		<div class="personal-details">
 				<div class="owner-info">
-				<div align="center"> <table border="2"><tr><td>Mã đơn hàng</td><td>Mã món ăn</td><td>Giá tiền</td><td>Thao tác</td></tr>
+				<div align="center"> <table border="2"><tr><td>Mã đơn hàng</td><td>Mã món ăn</td><td>Giá tiền</td><td>Số lượng</td><td>Thao tác</td></tr>
    				<?php
 				foreach($data1 as $row)
 				{
 					?>
 					<tr><td><?php echo $row["MaDonhang"];?></td>
 						<td><?php echo $row["MaMonan"];?></td>
-					   <td><?php echo $row["Giatien"];?></td>			  
-						<td><a href='xoachitietdonhang.php?MaDonhang=<?php echo $row["MaDonhang"];?>'>Xóa</a>
-							<a href='suachitietdonhang.php?MaDonhang=<?php echo $row["MaDonhang"];?>'>Sửa</a>	
+					   <td><?php echo $row["Giatien"];?></td>
+					   <td><?php echo $row["Soluong"];?></td>			  
+						<td><a href='xoachitietdonhang.php?MaDonhang=<?php echo $row["MaDonhang"];?>&MaMonan=<?php echo $row["MaMonan"];?>'>Xóa</a>	
+						<a href='formsuachitietdonhang.php?MaDonhang=<?php echo $row["MaDonhang"];?>&MaMonan=<?php echo $row["MaMonan"];?>'>Sửa</a>
 						</tr>
 					<?php
 				}

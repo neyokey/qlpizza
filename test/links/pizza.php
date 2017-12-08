@@ -164,7 +164,7 @@
 				<div class="row"> 
 					<hr>
 					<div class="col-sm-6"> 
-						<a href="#"><img src="../images/pz/<?php echo $r["Hinhanh"];?>" /></a>					
+					<a href="#"><img src="../images/pz/<?php echo $r["Hinhanh"];?>" /></a>					
 					</div>
 					<div class="col-sm-6 text-center">
 						<div class="row">
