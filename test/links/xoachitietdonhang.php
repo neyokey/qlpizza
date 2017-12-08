@@ -11,10 +11,40 @@
 	$loai = new Db();
 	$mama=$_GET["MaMonan"];
 	$madonhang=$_GET["MaDonhang"];
+	
+	
+	$datai = $loai->queryput2("select * from donhang where MaDonhang = :ten ",$madonhang);
+	$mand = $datai[0]["MaNguoidung"];
+	
+	$data0 = $loai->query("select * from chitietdonhang where MaMonan='$mama' and MaDonhang='$madonhang'");
+	$data2 = $loai->queryput2("select * from nguoidung where MaNguoidung = :ten ",$mand);
+	
+	$tien = $data0[0]["Giatien"];
+	$soluong=$data0[0]["Soluong"];
+	$tongold = $tien * $soluong;
+	$diem=$data2[0]["Diem"];
+	$diemtru= $diem - ($tongold / 10000);
+	$loaikh=$data2[0]["MaLoaiNguoidung"];
+	if($loaikh != "admin")
+	{	
+		if($diemtru > 100 )
+		{
+			$loaikh = "gm";
+		}
+		else
+		{
+			$loaikh = "nm";
+		}
+	}
+	
+	$sql3="update nguoidung set MaLoaiNguoidung ='$loaikh', Diem='$diemtru' where MaNguoidung='$mand'";
+	$loai->query($sql3);
+	
+	
 	$sql="delete from chitietdonhang where MaMonan='$mama' and MaDonhang='$madonhang'";
 	$loai->query($sql);
 	$data1 = $loai->queryput2("select * from chitietdonhang where MaDonhang = :ten ",$madonhang);
-	$data2 = $loai->queryput2("select * from nguoidung where MaNguoidung = :ten ",$data1[0]["MaNguoidung"]);
+	
 	$tong = 0;
 	$giam = 0;
 	$tt = 0;
@@ -26,7 +56,7 @@
 			$sl=$rr["Soluong"];
 			$tong += $gt * $sl;												
 		}
-		if($data2[0]["Soluong"] == "gm")
+		if($data2[0]["MaLoaiNguoidung"] == "gm")
 		{
 			$giam= $tong * 0.1;
 		}	

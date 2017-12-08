@@ -120,7 +120,7 @@
 		  <a href="../index.php"><img src="../images/ph-logo.png" height="97"/></a>
       </div> 
       <div class="col-sm-2 text-center">  
-		<button type="button" class="btn btn-warning">Giỏ hàng</button>
+		<button type="button" class="btn btn-warning" onclick="self.location.href='dathang.php'">Giỏ hàng</button>
 
       </div>
 	</div>

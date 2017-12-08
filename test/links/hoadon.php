@@ -1,20 +1,13 @@
 <?php
 		session_start();
-			$data = null;
-			include "../config.php";
-			include "../autoload.php";
-			$loai = new Db();
-				if (isset($_SESSION['Login'][0]['MaNguoidung']))
-				{
-						$ma = $_SESSION['Login'][0]['MaNguoidung'];
-						$data = $loai->queryUser("select * from nguoidung where MaNguoidung like :ma",$ma);
-				}
-
-			$ten="";
-			if (isset($_POST["ten"]))
-				$ten = $_POST["ten"];
-			$data1 = $loai->queryput("select * from nguoidung where TenNguoidung like :ten and MaLoaiNguoidung not like 'admin'",$ten);
-
+		include "../config.php";
+		include "../autoload.php";
+		include "../include/function.php";
+		$obj = new Monan();
+		$loai = new Db();
+		$cart = new Cart();
+		include "../include/save_cart.php";
+		
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,6 +18,9 @@
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <script src="../jquery-3.2.1.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/moment.js"></script>
+  <link href="../css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+  <script src="../js/bootstrap-datetimepicker.min.js"></script>
   <style>
     /* Remove the navbar's default margin-bottom and rounded borders */ 
     .navbar {
@@ -95,6 +91,13 @@
 	  .textbox{
 		  color: black;
 	  }
+	  .input-group.date{
+		  color: black;
+	  }
+	  .input-group-addon
+	  {
+		  color: black;
+	  }
   </style>
 </head>
 <body>  
@@ -105,7 +108,7 @@
    <div class="col-sm-8 text-center">
      <div class="col-sm-2 text-center ">
 		<?php
-			if($data == null)
+			if(isset($_SESSION['Login'])== false)
 			{
 			?>
 			<p><a href="Login.php"> <img src="../images/Human.jpg" class="img-rounded" alt="Cinque Terre"> Đăng nhập</a></p>
@@ -115,26 +118,30 @@
 			
 			<?php
 			}else{
-				echo "Welcome {$data['0']['TenNguoidung']}";
-				if($data['0']['MaLoaiNguoidung'] == "admin")
+				echo "Welcome {$_SESSION['Login'][0]['TenNguoidung']}";
+				if($_SESSION['Login']['0']['MaLoaiNguoidung'] == "admin")
 				{
 					?>
-						<button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='Admin.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>'">Quản lí</button>
-						<button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='../index.php'">Thoát</button>		
+						<button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='Admin.php'">Quản lí</button>
+						<form name="exit" action="../index.php"  method="post">
+							<button type="submit" class="btn btn-primary btn-lg" name ="exit">Thoát</button>	
+						</form>	
 					<?php
 				}
 				else
 				{
 					?>
-						<button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='User.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>'">Chi tiết</button>	
-						<button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='../index.php'">Thoát</button>	
+						<button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='User.php'">Chi tiết</button>	
+						<form name="exit" action="../index.php"  method="post">
+							<button type="submit" class="btn btn-primary btn-lg" name ="exit">Thoát</button>	
+						</form>
 					<?php
 				}
 			}
 			?>
       </div>
       <div class="col-sm-8 text-center ">
-		  <a href="../index.php"><img src="../images/ph-logo.png" height="97"/></a>
+		  <a href="index.php"><img src="../images/ph-logo.png" height="97"/></a>
       </div> 
       <div class="col-sm-2 text-center">  
 		<button type="button" class="btn btn-warning" onclick="self.location.href='dathang.php'">Giỏ hàng</button>
@@ -152,6 +159,7 @@
 		</div>
 	  <div class="col-sm-8">
 	  <hr>
+		
 		<div class="col-sm-2 " border-color: green><a href="../index.php">TRANG CHỦ</a></div>
 	  	<div class="col-sm-2 "><a href="combo.php">Combo</a></div>
 	  	<div class="col-sm-2 "><a href="pizza.php">Pizza</a></div>
@@ -170,46 +178,24 @@
     <div class="col-sm-2">
     </div>
     <div class="col-sm-8 text-center"> 
-      	<div class="tieude"> Quản lí tài khoản </div>
-      		<div class="personal-details">
-				<div class="owner-info">
-				<div>
-				<form action="qltaikhoan.php?MaNguoidung=<?php echo $data['0']['MaNguoidung'];?>" method="post">
-					<tr>Nhập tên người dùng <input type="text" name="ten" class="textbox"></input> </tr>
-					<tr><input type="submit" value="Tìm" name="submid"></tr>
-					</form>
-				</div>
-				<div align="center"> <table border="2"><tr><td>Mã tài khoản</td><td>Tên người dùng</td><td>Mật khẩu</td><td>Ngày sinh</td><td>Giới tính</td><td>Số điện thoại</td><td>Địa chỉ</td><td>Email</td><td>Điểm</td><td>Mã loại tài khoản</td><td>Thao tác</td></tr>
-   				<?php
-				foreach($data1 as $row)
-				{
-					?>
-					<tr><td><?php echo $row["MaNguoidung"];?></td>
-						<td><?php echo $row["TenNguoidung"];?></td>
-					   <td><?php echo $row["Matkhau"];?></td>
-					   <td><?php echo $row["Ngaysinh"];?></td>
-					   <td><?php echo $row["Gioitinh"];?></td>	
-					   <td><?php echo $row["Sodienthoai"];?></td>
-					   <td><?php echo $row["Diachi"];?></td>	
-					   <td><?php echo $row["Email"];?></td>	
-					   <td><?php echo $row["Diem"];?></td>
-					   	<td><?php echo $row["MaLoaiNguoidung"];?></td>			  
-						<td><a href='xoataikhoan.php?MaNguoidung=<?php echo $row["MaNguoidung"];?>'>Xóa</a>
-							<a href='formsuataikhoan.php?MaNguoidung=<?php echo $row["MaNguoidung"];?>'>Sửa</a></td>
-						</tr>
-					<?php
-				}
+			 <div class="tieude"> Hóa đơn</div>
+		  <div class="intent">
+				<?php
+				$cart -> show2();
+			  	
 				?>
-				</table>
-    			</div>
-	  </div>
-     	</div>
-    </div>
+		  </div>
+
+		  <div>
+		  <button type="button" class="btn btn-warning" onclick="location.href='../index.php?'">Quay về trang chủ</button>
+		  </div>
+		</div>
     <div class="col-sm-2">
-	
+
     </div>
   </div>
 </div>
+
 
 <footer class="container-fluid text-center">
   <div class="row logo foot">

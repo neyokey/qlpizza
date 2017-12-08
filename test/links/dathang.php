@@ -6,15 +6,9 @@
 		$obj = new Monan();
 		$loai = new Db();
 		$cart = new Cart();
-		$ac= getIndex("ac");
-		
-		if ($ac=="add")
-		{
-			$quantity = getIndex("quantity", 1);
-			$id = getIndex("id");
-			$cart->add($id, $quantity);
-		}
-		//Biến $cart được tạo từ trang chủ index.php
+		$giamgia =0;
+		include "../include/add_del_cart.php";
+	
 		
 ?>
 <!DOCTYPE html>
@@ -130,7 +124,7 @@
 				if($_SESSION['Login']['0']['MaLoaiNguoidung'] == "admin")
 				{
 					?>
-						<button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='links/Admin.php'">Quản lí</button>
+						<button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='Admin.php'">Quản lí</button>
 						<form name="exit" action="../index.php"  method="post">
 							<button type="submit" class="btn btn-primary btn-lg" name ="exit">Thoát</button>	
 						</form>	
@@ -139,7 +133,7 @@
 				else
 				{
 					?>
-						<button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='links/User.php'">Chi tiết</button>	
+						<button type="button" class="btn btn-primary btn-lg" onclick="self.location.href='User.php'">Chi tiết</button>	
 						<form name="exit" action="../index.php"  method="post">
 							<button type="submit" class="btn btn-primary btn-lg" name ="exit">Thoát</button>	
 						</form>
@@ -186,22 +180,67 @@
     <div class="col-sm-2">
     </div>
     <div class="col-sm-8 text-center"> 
-      	<div class="tieude"> Quản lí đơn hàng</div>
-      		<div class="personal-details">
-				<div class="owner-info">
+			<div class="tieude"> Thanh toán </div>
+		  <div class="intent">
 				<?php
-					$cart->show();
+				$cart -> show();
 				?>
+		  </div>
+		  <div class="intent">
+				<table class="table table-bordered" border=\"1\"><tr><td>Giá tiền</td><td>Giảm giá</td><td>Thành tiền</td></tr>
+				<tr>
+						<td><?php echo $cart ->getThanhTien();?></td>
+						<td><?php 
+						if(isset($_SESSION['Login']) ==  true)
+						{
+							if($_SESSION['Login'][0]['MaLoaiNguoidung']=="nm")
+							{
+								$giamgia = 0;
+								echo "0";
+							}else if($_SESSION['Login'][0]['MaLoaiNguoidung']=="gm")
+							{
+								$giamgia = 10;
+								echo "10";
+							}else{
+							$giamgia = 0;
+							echo "0";
+							}
+						
+						}else{
+							$giamgia = 0;
+							echo "0";
+						}
+						?>
+						</td>
+						
+						<hr>
+						<div class="tieude"> Thành tiền </div>
+						<td><?php echo $tongTT = ($cart ->getThanhTien())-($cart ->getThanhTien()*$giamgia/100) ;?></td>
+						
 				
-    			</div>
-	  </div>
-     	</div>
-    </div>
+						</tr>
+						
+				
+				</table>
+				
+		  </div>
+		  <?php
+			if($cart -> getNumItem()!=0)
+			{
+				?>
+		   <div>
+				<button type="button" class="btn btn-warning" onclick="self.location.href='hoadon.php?ac=save'">Thanh Toán</button>
+		  </div>
+		  <?php
+			}
+			?>
+		</div>
     <div class="col-sm-2">
-	
+
     </div>
   </div>
 </div>
+
 
 <footer class="container-fluid text-center">
   <div class="row logo foot">
