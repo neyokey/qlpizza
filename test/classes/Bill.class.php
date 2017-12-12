@@ -1,6 +1,6 @@
 
 <?php
-class Cart extends Db{
+class Bill extends Db{
 	private $_cart;
 	private $_num_item =0;
 	public function  __construct()
@@ -81,7 +81,7 @@ class Cart extends Db{
 					$arr = array(":MaLoaiNguoidung"=> "gm",":MaNguoidung"=>$manguoidung);
 					$temp->query($sql,$arr);
 			}
-		echo "<script language=javascript>window.location='hoadon.php';</script>";
+		//echo "<script language=javascript>window.location='hoadon.php';</script>";
 	}
 	public function getNumItem()
 	{
@@ -89,7 +89,7 @@ class Cart extends Db{
 	}
 	public function __destruct()
 	{
-		$_SESSION["cart"] = $this->_cart;	
+		unset($_SESSION["cart"]);
 		
 	}
 	/*

@@ -21,3 +21,8 @@ function requestIndex($index, $value='')
 	$data = isset($_REQUEST[$index])? $_REQUEST[$index]:$value;
 	return $data;
 }
+function ResetObject($this) {
+        foreach ($this as $key => $value) {
+            unset($this->$key);
+        }
+	}

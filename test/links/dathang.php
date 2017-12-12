@@ -146,7 +146,7 @@
 		  <a href="index.php"><img src="../images/ph-logo.png" height="97"/></a>
       </div> 
       <div class="col-sm-2 text-center">  
-		<button type="button" class="btn btn-warning" onclick="self.location.href='links/dathang.php'">Giỏ hàng</button>
+		<button type="button" class="btn btn-warning" onclick="self.location.href='dathang.php'">Giỏ hàng</button>
 
       </div>
 	</div>
@@ -186,10 +186,16 @@
 				$cart -> show();
 				?>
 		  </div>
-		  <div class="intent">
+		  
+		  <?php
+			if($cart -> getNumItem()!=0)
+			{
+				?>
+			<div class="intent">
 				<table class="table table-bordered" border=\"1\"><tr><td>Giá tiền</td><td>Giảm giá</td><td>Thành tiền</td></tr>
 				<tr>
-						<td><?php echo $cart ->getThanhTien();?></td>
+						<td><?php $tt =$cart ->getThanhTien();
+									echo $tt;?></td>
 						<td><?php 
 						if(isset($_SESSION['Login']) ==  true)
 						{
@@ -199,8 +205,8 @@
 								echo "0";
 							}else if($_SESSION['Login'][0]['MaLoaiNguoidung']=="gm")
 							{
-								$giamgia = 10;
-								echo "10";
+								$giamgia = $tt*0.1;
+								echo $giamgia;
 							}else{
 							$giamgia = 0;
 							echo "0";
@@ -215,7 +221,7 @@
 						
 						<hr>
 						<div class="tieude"> Thành tiền </div>
-						<td><?php echo $tongTT = ($cart ->getThanhTien())-($cart ->getThanhTien()*$giamgia/100) ;?></td>
+						<td><?php echo $tongTT = $tt - $giamgia ;?></td>
 						
 				
 						</tr>
@@ -224,10 +230,6 @@
 				</table>
 				
 		  </div>
-		  <?php
-			if($cart -> getNumItem()!=0)
-			{
-				?>
 		   <div>
 				<button type="button" class="btn btn-warning" onclick="self.location.href='hoadon.php?ac=save'">Thanh Toán</button>
 		  </div>
