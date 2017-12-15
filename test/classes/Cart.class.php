@@ -23,7 +23,7 @@ class Cart extends Db{
 				foreach($data as $row)
 				{
 					
-					$thanhtien += $row["Giatien"];
+					$thanhtien += $row["Giatien"]*$quantity;
 				}
 
 			}
@@ -48,10 +48,11 @@ class Cart extends Db{
 				$data2 = $temp->getData();
 				foreach($data2 as $row)
 				{
+					$gt =$row["Giatien"]*$quantity;
 					$_SESSION["MaDonhang"]=$data[0]["MaDonhang"];
 					$sql = "INSERT INTO chitietdonhang (MaDonhang, MaMonan, Giatien, Soluong)
 					VALUES (:MaDonhang,:MaMonan,:Giatien,:Soluong)";
-					$arr = array(":MaDonhang"=> $data[0]["MaDonhang"],":MaMonan" => $row["MaMonan"],":Giatien"=> $row["Giatien"],":Soluong" =>$quantity);
+					$arr = array(":MaDonhang"=> $data[0]["MaDonhang"],":MaMonan" => $row["MaMonan"],":Giatien"=> $gt,":Soluong" =>$quantity);
 					$temp->query($sql,$arr);
 				}
 
@@ -115,6 +116,17 @@ class Cart extends Db{
 		$this->_num_item = array_sum($this->_cart);
 		echo "<script language=javascript>window.location='dathang.php';</script>";//Chuyển trình duyệt web tới trang hiển thị cart
 	}
+	public function minus($id, $quantity=1)
+	{	
+		if ($id=="" || $quantity<1) return;
+		if (!$this->bookExist($id)) return;	
+		if (isset($this->_cart[$id])&&$this->_cart[$id]>1)
+			$this->_cart[$id]-=	$quantity;
+		else $this->_cart[$id]=	$quantity;
+		$_SESSION["cart"] = $this->_cart;	
+		$this->_num_item = array_sum($this->_cart);
+		echo "<script language=javascript>window.location='dathang.php';</script>";//Chuyển trình duyệt web tới trang hiển thị cart
+	}
 	
 	public function remove($id)
 	{
@@ -138,7 +150,7 @@ class Cart extends Db{
 			return;
 		}
 		?>
-		<table class="table table-bordered" border=\"1\"><tr><th>Tên món ăn</th><th>Giá tiền</th><th>Chi tiết</th><th>Hình ảnh</th><th>Số lượng</th></tr>
+		<table class="table table-bordered" border=\"1\"><tr><th>Tên món ăn</th><th>Giá tiền</th><th>Chi tiết</th><th>Hình ảnh</th><th>Số lượng</th><th>Thành tiền</th></tr>
 		<?php
 		foreach($this->_cart as $id=>$quantity)
 		{
@@ -165,7 +177,12 @@ class Cart extends Db{
 									<img src="../images/mn/<?php echo $row["Hinhanh"];?>" />
 									<?php } ?>
 						</td>	
-						<td><?php echo $quantity;?></td>							
+						<td><div><button type="button" class="btn btn-info" onclick="self.location.href='dathang.php?ac=minus&id=<?php echo $row["MaMonan"];?>'">-</button>
+						<?php echo " ".$quantity." ";?>
+						<button type="button" class="btn btn-info" onclick="self.location.href='dathang.php?ac=add&id=<?php echo $row["MaMonan"];?>'">+</button></div></td>	
+							
+						<td><?php echo ($row["Giatien"]*$quantity)." VNĐ";?></td>	
+											
 						<td><button type="button" class="btn btn-warning" onclick="self.location.href='dathang.php?ac=del&id=<?php echo $row["MaMonan"];?>'">Xóa</button></td>
 						</tr>
 						<?php
@@ -189,7 +206,7 @@ class Cart extends Db{
 			return;
 		}
 		?>
-		<table class="table table-bordered"  border=\"1\"><tr><th>Tên món ăn</th><th>Giá tiền</th><th>Số lượng</th></tr>
+		<table class="table table-bordered"  border=\"1\"><tr><th>Tên món ăn</th><th>Giá tiền</th><th>Số lượng</th><th>Thành tiền</th></tr>
 	<?php
 		foreach($this->_cart as $id=>$quantity)
 		{
@@ -201,10 +218,9 @@ class Cart extends Db{
 					?>
 					<tr>
 						<td><?php echo $row["TenMonan"];?></td>
-					   <td><?php echo $row["Giatien"];?></td>
-		
-					  
-						<td><?php echo $quantity;?></td>							
+						<td><?php echo $row["Giatien"];?></td> 
+						<td><?php echo $quantity;?></td>	
+						<td><?php echo ($row["Giatien"]*$quantity)." VNĐ";?></td>								
 						</tr>
 						<?php
 				}
@@ -219,13 +235,15 @@ class Cart extends Db{
 		$arr = array(":ma"=> $_SESSION["MaDonhang"]);
 		$data = $temp->query($sql,$arr);
 		?>
-		<table class="table table-bordered" border=\"1\"><tr><th>Thời gian đặt hàng</th><th>Tổng tiền</th><th>Giảm giá</th><th>Thành tiền</th></tr>
+		<table class="table table-bordered" border=\"1\"><tr><th>Người dùng</th><th>Địa chỉ</th><th>Thời gian đặt hàng</th><th>Tổng tiền</th><th>Giảm giá</th><th>Thành tiền</th></tr>
 		<?php
 		
 				foreach($data as $row)
 				{
 					?>
 					<tr>
+						<td><?php echo$_SESSION['Login'][0]['TenNguoidung']; ?></td>
+						<td><?php echo$_SESSION['Login'][0]['Diachi']; ?></td>
 						<td><?php echo $row["ThoiGianDathang"];?></td>
 					   <td><?php echo $row["TongGiatien"];?></td>
 					   <td><?php echo $row["Giamgia"];?></td>

@@ -43,7 +43,11 @@ if (isset($_FILES["hinh"]))
 			if (!move_uploaded_file($temp, "../images/".$maloai."/".$name))
 				$err .="Không thể lưu file<br>";
 		 	else
-		 		rename("../images/".$maloai."/".$name,"../images/".$maloai."/".$ma.".png");
+			{
+				$ran = rand(10, 1000);
+				rename("../images/".$maloai."/".$name,"../images/".$maloai."/".$ma.$ran.".png");
+			}
+		 		
 		}
 	}
 }
@@ -204,7 +208,7 @@ else
 						echo $err;
 					else
 					{
-						$h = $ma.".png";
+						$h = $ma.$ran.".png";
 						$sqlupdate = "update monan set TenMonan='$ten', Giatien='$gt', Chitiet='$ct', Hinhanh='$h', MaLoaiMonan='$maloai' where MaMonan='$ma'";
 						$data = $loai->query($sqlupdate);
 						

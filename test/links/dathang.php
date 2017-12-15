@@ -113,7 +113,7 @@
 			if(isset($_SESSION['Login'])== false)
 			{
 			?>
-			<p><a href="Login.php"> <img src="../images/Human.jpg" class="img-rounded" alt="Cinque Terre"> Đăng nhập</a></p>
+			<p><a href="Login.html"> <img src="../images/Human.jpg" class="img-rounded" alt="Cinque Terre"> Đăng nhập</a></p>
 		   <p>&nbsp;</p>
 		
 			<div><a href="SignUp.php"> <img src="../images/Human.jpg" class="img-rounded" alt="Cinque Terre"> Đăng kí</a></div>
@@ -177,9 +177,8 @@
 <div class="container-fluid text-center">    
   <div class="row content">
    <p>&nbsp;</p>
-    <div class="col-sm-2">
-    </div>
-    <div class="col-sm-8 text-center"> 
+
+    <div class="col-sm-12 text-center"> 
 			<div class="tieude"> Thanh toán </div>
 		  <div class="intent">
 				<?php
@@ -192,9 +191,9 @@
 			{
 				?>
 			<div class="intent">
-				<table class="table table-bordered" border=\"1\"><tr><td>Giá tiền</td><td>Giảm giá</td><td>Thành tiền</td></tr>
+				<table class="table table-bordered" border=\"1\"><tr><td>Tổng tiền</td><td>Giảm giá</td><td>Thành tiền</td></tr>
 				<tr>
-						<td><?php $tt =$cart ->getThanhTien();
+						<td><?php $tt =$cart ->getThanhTien()."VNĐ";
 									echo $tt;?></td>
 						<td><?php 
 						if(isset($_SESSION['Login']) ==  true)
@@ -202,26 +201,26 @@
 							if($_SESSION['Login'][0]['MaLoaiNguoidung']=="nm")
 							{
 								$giamgia = 0;
-								echo "0";
+								echo "0 VND";
 							}else if($_SESSION['Login'][0]['MaLoaiNguoidung']=="gm")
 							{
 								$giamgia = $tt*0.1;
-								echo $giamgia;
+								echo $giamgia." VNĐ";
 							}else{
 							$giamgia = 0;
-							echo "0";
+							echo "0 VNĐ";
 							}
 						
 						}else{
 							$giamgia = 0;
-							echo "0";
+							echo "0 VNĐ";
 						}
 						?>
 						</td>
 						
 						<hr>
-						<div class="tieude"> Thành tiền </div>
-						<td><?php echo $tongTT = $tt - $giamgia ;?></td>
+						<div class="tieude"> Thanh toán </div>
+						<td><?php echo ($tongTT = $tt - $giamgia)." VNĐ" ;?></td>
 						
 				
 						</tr>
@@ -237,9 +236,6 @@
 			}
 			?>
 		</div>
-    <div class="col-sm-2">
-
-    </div>
   </div>
 </div>
 

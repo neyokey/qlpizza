@@ -86,7 +86,7 @@
 			if(isset($_SESSION['Login'])== false)
 			{
 			?>
-			<p><a href="Login.php"> <img src="../images/Human.jpg" class="img-rounded" alt="Cinque Terre"> Đăng nhập</a></p>
+			<p><a href="Login.html"> <img src="../images/Human.jpg" class="img-rounded" alt="Cinque Terre"> Đăng nhập</a></p>
 		   <p>&nbsp;</p>
 		
 			<div><a href="SignUp.php"> <img src="../images/Human.jpg" class="img-rounded" alt="Cinque Terre"> Đăng kí</a></div>

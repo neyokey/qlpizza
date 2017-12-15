@@ -189,7 +189,7 @@ class Bill extends Db{
 			return;
 		}
 		?>
-		<table class="table table-bordered"  border=\"1\"><tr><th>Tên món ăn</th><th>Giá tiền</th><th>Số lượng</th></tr>
+		<table class="table table-bordered"  border=\"1\"><tr><th>Tên món ăn</th><th>Giá tiền</th><th>Số lượng</th><th>Thành tiền</th></tr>
 	<?php
 		foreach($this->_cart as $id=>$quantity)
 		{
@@ -201,10 +201,9 @@ class Bill extends Db{
 					?>
 					<tr>
 						<td><?php echo $row["TenMonan"];?></td>
-					   <td><?php echo $row["Giatien"];?></td>
-		
-					  
-						<td><?php echo $quantity;?></td>							
+						<td><?php echo $row["Giatien"];?></td> 
+						<td><?php echo $quantity;?></td>	
+						<td><?php echo ($row["Giatien"]*$quantity)." VNĐ";?></td>								
 						</tr>
 						<?php
 				}
@@ -219,17 +218,19 @@ class Bill extends Db{
 		$arr = array(":ma"=> $_SESSION["MaDonhang"]);
 		$data = $temp->query($sql,$arr);
 		?>
-		<table class="table table-bordered" border=\"1\"><tr><th>Thời gian đặt hàng</th><th>Tổng tiền</th><th>Giảm giá</th><th>Thành tiền</th></tr>
+		<table class="table table-bordered" border=\"1\"><tr><th>Người dùng</th><th>Địa chỉ</th><th>Thời gian đặt hàng</th><th>Tổng tiền</th><th>Giảm giá</th><th>Thành tiền</th></tr>
 		<?php
 		
 				foreach($data as $row)
 				{
 					?>
 					<tr>
+						<td><?php echo$_SESSION['Login'][0]['TenNguoidung']; ?></td>
+						<td><?php echo$_SESSION['Login'][0]['Diachi']; ?></td>
 						<td><?php echo $row["ThoiGianDathang"];?></td>
-					   <td><?php echo $row["TongGiatien"];?></td>
-					   <td><?php echo $row["Giamgia"];?></td>
-					   <td><?php echo $row["Thanhtien"];?></td>
+					   <td><?php echo $row["TongGiatien"]." VNĐ";?></td>
+					   <td><?php echo $row["Giamgia"]." VNĐ";?></td>
+					   <td><?php echo $row["Thanhtien"]." VNĐ";?></td>
 		
 					  
 												
