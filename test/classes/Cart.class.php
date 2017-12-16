@@ -48,11 +48,10 @@ class Cart extends Db{
 				$data2 = $temp->getData();
 				foreach($data2 as $row)
 				{
-					$gt =$row["Giatien"]*$quantity;
 					$_SESSION["MaDonhang"]=$data[0]["MaDonhang"];
 					$sql = "INSERT INTO chitietdonhang (MaDonhang, MaMonan, Giatien, Soluong)
 					VALUES (:MaDonhang,:MaMonan,:Giatien,:Soluong)";
-					$arr = array(":MaDonhang"=> $data[0]["MaDonhang"],":MaMonan" => $row["MaMonan"],":Giatien"=> $gt,":Soluong" =>$quantity);
+					$arr = array(":MaDonhang"=> $data[0]["MaDonhang"],":MaMonan" => $row["MaMonan"],":Giatien"=> $row["Giatien"],":Soluong" =>$quantity);
 					$temp->query($sql,$arr);
 				}
 
@@ -177,12 +176,8 @@ class Cart extends Db{
 									<img src="../images/mn/<?php echo $row["Hinhanh"];?>" />
 									<?php } ?>
 						</td>	
-						<td><div><button type="button" class="btn btn-info" onclick="self.location.href='dathang.php?ac=minus&id=<?php echo $row["MaMonan"];?>'">-</button>
-						<?php echo " ".$quantity." ";?>
-						<button type="button" class="btn btn-info" onclick="self.location.href='dathang.php?ac=add&id=<?php echo $row["MaMonan"];?>'">+</button></div></td>	
-							
-						<td><?php echo ($row["Giatien"]*$quantity)." VNĐ";?></td>	
-											
+						<td><div><button type="button" class="btn btn-info" onclick="self.location.href='dathang.php?ac=minus&id=<?php echo $row["MaMonan"];?>'">-</button><?php echo " ".$quantity." ";?><button type="button" class="btn btn-info" onclick="self.location.href='dathang.php?ac=add&id=<?php echo $row["MaMonan"];?>'">+</button></div></td>		
+						<td><?php echo ($row["Giatien"]*$quantity)." VNĐ";?></td>						
 						<td><button type="button" class="btn btn-warning" onclick="self.location.href='dathang.php?ac=del&id=<?php echo $row["MaMonan"];?>'">Xóa</button></td>
 						</tr>
 						<?php

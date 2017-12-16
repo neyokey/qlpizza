@@ -29,7 +29,7 @@ if(isset($_SESSION['Login']) ==  true)
 						}else if($ac=="save"&&isset($_SESSION['Login'])== false){
 								?>
 								<script>
-									alert("Vui long dang nhap <?php echo $tt;?>");
+									alert("Vui long dang nhap");
 									  window.history.back();
 								</script>
 								<?php

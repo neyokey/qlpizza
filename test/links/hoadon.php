@@ -5,7 +5,7 @@
 		include "../include/function.php";
 		$obj = new Monan();
 		$loai = new Db();
-		$cart = new Cart();
+		$cart = new Bill();
 		include "../include/save_cart.php";
 		
 ?>

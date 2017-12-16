@@ -23,7 +23,7 @@ class Bill extends Db{
 				foreach($data as $row)
 				{
 					
-					$thanhtien += $row["Giatien"];
+					$thanhtien += $row["Giatien"]*$quantity;
 				}
 
 			}
